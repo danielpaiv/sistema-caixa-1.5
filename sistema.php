@@ -357,6 +357,30 @@
         document.getElementById("valor-final").value = valorComDesconto.toFixed(0); //leva o resultado para a tabela
         document.getElementById("valor-final").textContent = valorComDesconto.toFixed(0); //exibe o resultado na teg (p)
         }
+
+        function somarColunaValorFinal() {
+        var tabelaOrdemServicos = document.querySelector('.pedidos-vendidos tbody');
+        var linhas = tabelaOrdemServicos.getElementsByTagName('tr');
+        var soma = 0;
+
+        for (var i = 0; i < linhas.length; i++) {
+            var celulaValorFinal = linhas[i].getElementsByTagName('td')[7]; // Índice 8 representa a coluna 'valorFinal'
+            soma += parseFloat(celulaValorFinal.textContent || celulaValorFinal.innerText);
+        }
+
+        alert('A soma da coluna \'ValorFinal\' é: ' + soma.toFixed(2));
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // ... (seu código existente)
+
+        // Adicione um botão ou chamada de função para chamar a soma da coluna ValorFinal
+        var botaoSomarValorFinal = document.createElement('button');
+        botaoSomarValorFinal.textContent = 'Somar ValorFinal';
+        botaoSomarValorFinal.addEventListener('click', somarColunaValorFinal);
+        document.body.appendChild(botaoSomarValorFinal);
+    });
+
   // código filtrar itens...
 
   document.addEventListener
