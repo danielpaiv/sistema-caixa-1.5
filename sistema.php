@@ -113,7 +113,7 @@
                     background-color: #555;
                 }
                 label{
-                    padding: 11px;
+                    padding: 10px;
                 }
 
             </style>
