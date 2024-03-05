@@ -354,8 +354,8 @@
         const valorComDesconto = valorServico - desconto ;
 
         // Exiba o resultado
-        document.getElementById("valor-final").value = valorComDesconto.toFixed(0);
-        document.getElementById("valor-final").textContent = valorComDesconto.toFixed(0);
+        document.getElementById("valor-final").value = valorComDesconto.toFixed(0); //leva o resultado para a tabela
+        document.getElementById("valor-final").textContent = valorComDesconto.toFixed(0); //exibe o resultado na teg (p)
         }
   // código filtrar itens...
 
