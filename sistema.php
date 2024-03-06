@@ -48,6 +48,7 @@
                     
                 }
                 .btn{
+                  animation: blink 1s infinite;
                     background-color: red;
                     padding: 3px;
                     border: none;
@@ -116,11 +117,30 @@
                     padding: 10px;
                 }
 
+                @keyframes blink {
+                  0% {
+                    opacity: 1;
+                    background-color: red;
+                  }
+                  50% {
+                    opacity: 0;
+                    background-color: transparent;
+                  }
+                  100% {
+                    opacity: 1;
+                    background-color: transparent;
+                  }
+                }
+
+                .piscar {
+                  animation: blink 0.6s infinite;
+                }
+
             </style>
         </head>
     <body>
         <nav>
-            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            <button class="piscar" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
             <span class="navbar-toggler-icon"></span>
             </button>
             <a href="sair.php" class="btn btn-danger me-5">Sair</a>
@@ -167,7 +187,7 @@
             <section class="produtos">
               <h2>Produtos</h2>
                   <div>
-                    <label for="filtro-produtos">Filtrar por nome:</label>
+                    <label for="filtro-produtos">Buscar Produto:</label>
                     <input type="text" id="filtro-produtos">
                     <br>
                     <br>
@@ -345,93 +365,79 @@
   <script>
 
        // Função para calcular o valor com desconto
-    function calcularValor() {
-        // Obtenha os valores dos campos
-        const valorServico = parseFloat(document.getElementById("valor-venda").value);
-        const desconto = parseFloat(document.getElementById("discount").value);
+        function calcularValor() {
+          // Obtenha os valores dos campos
+          const valorServico = parseFloat(document.getElementById("valor-venda").value);
+          const desconto = parseFloat(document.getElementById("discount").value);
 
-        // Realize o cálculo do valor com desconto
-        const valorComDesconto = valorServico - desconto ;
+          // Realize o cálculo do valor com desconto
+          const valorComDesconto = valorServico - desconto ;
 
-        // Exiba o resultado
-        document.getElementById("valor-final").value = valorComDesconto.toFixed(0); //leva o resultado para a tabela
-        document.getElementById("valor-final").textContent = valorComDesconto.toFixed(0); //exibe o resultado na teg (p)
+          // Exiba o resultado
+          document.getElementById("valor-final").value = valorComDesconto.toFixed(0); //leva o resultado para a tabela
+          document.getElementById("valor-final").textContent = valorComDesconto.toFixed(0); //exibe o resultado na teg (p)
         }
 
-        function somarColunaValorFinal() {
-        var tabelaOrdemServicos = document.querySelector('.pedidos-vendidos tbody');
-        var linhas = tabelaOrdemServicos.getElementsByTagName('tr');
-        var soma = 0;
+       
+        function somarColunaValorFinal() { // Esta função calcula a soma dos valores da coluna 'valorFinal' da tabela de ordem de serviços
+          var tabelaOrdemServicos = document.querySelector('.pedidos-vendidos tbody');// Obtém a tabela de ordem de serviços
+          var linhas = tabelaOrdemServicos.getElementsByTagName('tr');// Obtém todas as linhas da tabela
+          var soma = 0;// Inicializa a variável soma
 
-        for (var i = 0; i < linhas.length; i++) {
+          for (var i = 0; i < linhas.length; i++) {// Itera sobre todas as linhas da tabela
             var celulaValorFinal = linhas[i].getElementsByTagName('td')[7]; // Índice 8 representa a coluna 'valorFinal'
-            soma += parseFloat(celulaValorFinal.textContent || celulaValorFinal.innerText);
+            soma += parseFloat(celulaValorFinal.textContent || celulaValorFinal.innerText);// Converte o valor da célula para um número e adiciona à soma
+          }
+
+          alert('A soma da coluna \'ValorFinal\' é: ' + soma.toFixed(2));// Exibe um alerta com a soma calculada
         }
 
-        alert('A soma da coluna \'ValorFinal\' é: ' + soma.toFixed(2));
-    }
+        document.addEventListener('DOMContentLoaded', function () {// Adiciona um evento para executar a função somarColunaValorFinal quando o DOM estiver carregado
+        
+          var botaoSomarValorFinal = document.createElement('button');// Adicione um botão ou chamada de função para chamar a soma da coluna ValorFinal
+          botaoSomarValorFinal.textContent = 'Somar ValorFinal';
+          botaoSomarValorFinal.addEventListener('click', somarColunaValorFinal);
+          document.body.appendChild(botaoSomarValorFinal);
+        });
 
-    document.addEventListener('DOMContentLoaded', function () {
-        // ... (seu código existente)
+          // código filtrar itens...
+        document.addEventListener('DOMContentLoaded', function () {
+        
+          const filtroProdutos = document.getElementById('filtro-produtos');
+          const botaoFiltrar = document.getElementById('botao-filtrar');
+          const produtos = document.querySelectorAll('.produtos .produto');
 
-        // Adicione um botão ou chamada de função para chamar a soma da coluna ValorFinal
-        var botaoSomarValorFinal = document.createElement('button');
-        botaoSomarValorFinal.textContent = 'Somar ValorFinal';
-        botaoSomarValorFinal.addEventListener('click', somarColunaValorFinal);
-        document.body.appendChild(botaoSomarValorFinal);
-    });
-
-  // código filtrar itens...
-
-  document.addEventListener
-  ('DOMContentLoaded', function () 
-    {
-    
-
-      const filtroProdutos = document.getElementById('filtro-produtos');
-      const botaoFiltrar = document.getElementById('botao-filtrar');
-      const produtos = document.querySelectorAll('.produtos .produto');
-
-      botaoFiltrar.addEventListener
-      ('click', function () 
-        {
-          const termoBusca = filtroProdutos.value.toLowerCase();
-
-          produtos.forEach
-          (produto => 
+          botaoFiltrar.addEventListener
+          ('click', function () 
             {
-              const nomeProduto = produto.getAttribute('data-name').toLowerCase();
-              const produtoElemento = produto;
+              const termoBusca = filtroProdutos.value.toLowerCase();
 
-              if (nomeProduto.includes(termoBusca)) 
-              {
-                produtoElemento.style.display = 'flex'; // Exibe o produto
-              }
-              else 
-              {
-                produtoElemento.style.display = 'none'; // Oculta o produto
-              }
+              produtos.forEach
+              (produto => 
+                {
+                  const nomeProduto = produto.getAttribute('data-name').toLowerCase();
+                  const produtoElemento = produto;
+
+                  if (nomeProduto.includes(termoBusca)) 
+                  {
+                    produtoElemento.style.display = 'flex'; // Exibe o produto
+                  }
+                  else 
+                  {
+                    produtoElemento.style.display = 'none'; // Oculta o produto
+                  }
+                }
+              );
             }
           );
-        }
-      );
 
-  
-    }
-  );
+      
+        });
 
-// código filtrar itens...
-
-// codigo salvar dados no navegador...
-// Evento de clique para exportar pedidos
-// Botão para imprimir pedidos
+              // código filtrar itens...
     
-// codigo salvar dados no navegador...
-
-
-    document.addEventListener
-    ('DOMContentLoaded', function () 
-            {
+              // codigo salvar dados no navegador...
+            document.addEventListener('DOMContentLoaded', function () {
               const produtos = document.querySelectorAll('.produtos .produto');
               const itensCarrinho = document.querySelector('.itens-carrinho');
               const totalCarrinho = document.querySelector('.total span');
@@ -446,19 +452,17 @@
                const selectValorFinal = document.getElementById('valor-final');
               let totalCompra = 0;
 
-              // Adiciona eventos de clique para adicionar produtos ao carrinho
-              produtos.forEach
-              (produto => 
-                {
+                  // Adiciona eventos de clique para adicionar produtos ao carrinho
+                produtos.forEach(produto => {
                   const adicionarProdutoBtn = produto.querySelector('.adicionar-produto');
-                  adicionarProdutoBtn.addEventListener
-                  ('click', () => 
-                    {
+
+                      adicionarProdutoBtn.addEventListener('click', () => {
+
                         const nomeProduto = produto.getAttribute('data-name');
                         const precoProduto = parseFloat(produto.getAttribute('data-price'));
                         const quantidade = parseInt(produto.querySelector('input[type="number"]').value);
 
-                        const itemExistente = Array.from(itensCarrinho.querySelectorAll('tr')).find
+                        const itemExistente = Array.from(itensCarrinho.querySelectorAll('tr')).find 
                         (item => 
                           {
                             return item.dataset.name === nomeProduto;
@@ -474,146 +478,120 @@
                           itemExistente.querySelector('.subtotal').textContent = `R$ ${subtotal.toFixed(0)}`;
                         } 
                       
-                      else 
-
-                        {
+                        else {
                           const subtotal = precoProduto * quantidade;
                           const newRow = document.createElement('tr');
                           newRow.dataset.name = nomeProduto;
                           newRow.innerHTML = `
-                            <td>${nomeProduto}</td>
-                            <td>R$ ${precoProduto.toFixed(0)}</td>
-                            <td class="quantidade">${quantidade}</td><td class="subtotal">R$ ${subtotal.toFixed(0)}</td>
+                          <td>${nomeProduto}</td>
+                          <td>R$ ${precoProduto.toFixed(0)}</td>
+                          <td class="quantidade">${quantidade}</td><td class="subtotal">R$ ${subtotal.toFixed(0)}</td>
                           <td><button class="remover-item">Remover</button></td>
                           `;
                           itensCarrinho.appendChild(newRow);
                         }
 
-                      totalCompra += precoProduto * quantidade;
-                      totalCarrinho.textContent = `R$ ${totalCompra.toFixed(0)}`;
-                    }
-                  );
-                }
-              );
+                        totalCompra += precoProduto * quantidade;
+                        totalCarrinho.textContent = `R$ ${totalCompra.toFixed(0)}`;
+
+                      });
+                });
 
                   // Evento para remover item do carrinho
-                  itensCarrinho.addEventListener
+                itensCarrinho.addEventListener('click', event => {
 
-              ('click', event => 
-
-                  {
-                    if (event.target.classList.contains('remover-item')) 
-                    {
-                      const itemToRemove = event.target.closest('tr');
-                      const precoItem = parseFloat(itemToRemove.querySelector('td:nth-child(2)').textContent.replace('R$ ', ''));
-                      const quantidadeItem = parseInt(itemToRemove.querySelector('.quantidade').textContent);
-                      totalCompra -= precoItem * quantidadeItem;
-                      totalCarrinho.textContent =`R$ ${totalCompra.toFixed(0)}`;
-                      itemToRemove.remove();
-                    }
+                  if (event.target.classList.contains('remover-item')) {
+                    const itemToRemove = event.target.closest('tr');
+                    const precoItem = parseFloat(itemToRemove.querySelector('td:nth-child(2)').textContent.replace('R$ ', ''));
+                    const quantidadeItem = parseInt(itemToRemove.querySelector('.quantidade').textContent);
+                    totalCompra -= precoItem * quantidadeItem;
+                    totalCarrinho.textContent =`R$ ${totalCompra.toFixed(0)}`;
+                    itemToRemove.remove();
                   }
-              );
+
+                });
 
               // Evento para finalizar compra
-              botaoFinalizarCompra.addEventListener
+                botaoFinalizarCompra.addEventListener('click', () => {
 
-                  ('click', () => 
+                  const formaPagamento = selectFormaPagamento.value;
+                  const cliente = selectCliente.value;
+                  const categoria = selectCategoria.value;
+                  const observacao = selectObservacao.value;
+                  const discount = selectDiscount.value;
+                  const valorFinal = selectValorFinal.value;
+                  const data = new Date().toLocaleDateString();
 
-                    {
-                      const formaPagamento = selectFormaPagamento.value;
-                      const cliente = selectCliente.value;
-                      const categoria = selectCategoria.value;
-                      const observacao = selectObservacao.value;
-                      const discount = selectDiscount.value;
-                      const valorFinal = selectValorFinal.value;
-                      const data = new Date().toLocaleDateString();
+                  const itensCarrinhoRows = document.querySelectorAll('.itens-carrinho tr');
+                  itensCarrinhoRows.forEach
 
-                      const itensCarrinhoRows = document.querySelectorAll('.itens-carrinho tr');
-                      itensCarrinhoRows.forEach
+                  (row => {
+                    const nome = row.children[0].textContent;
+                    const quantidade = row.children[2].textContent;
+                    const valor = row.children[3].textContent.replace('R$ ', '');
 
-                      (row => 
+                    const newRow = document.createElement('tr');
+                    newRow.innerHTML = `
+                    <td>${nome}</td>
+                    <td>${data}</td>
+                    <td>${formaPagamento}</td>
+                    <td>${cliente}</td>
+                    <td>${categoria}</td>
+                    <td>${observacao}</td>
+                    <td>${discount}</td>
+                    <td>${valorFinal}</td>
+                    <td>${quantidade}</td>
+                    <td>${valor}</td>
+                    `;
+                    listaPedidosVendidos.appendChild(newRow);
+                  });
 
-                        {
-                          const nome = row.children[0].textContent;
-                          const quantidade = row.children[2].textContent;
-                          const valor = row.children[3].textContent.replace('R$ ', '');
-
-                          const newRow = document.createElement('tr');
-                          newRow.innerHTML = `
-                            <td>${nome}</td>
-                            <td>${data}</td>
-                            <td>${formaPagamento}</td>
-                            <td>${cliente}</td>
-                            <td>${categoria}</td>
-                            <td>${observacao}</td>
-                            <td>${discount}</td>
-                            <td>${valorFinal}</td>
-                            <td>${quantidade}</td>
-                            <td>${valor}</td>
-                            `;
-                          listaPedidosVendidos.appendChild(newRow);
-                        }
-                      );
-
-                      // Limpa o carrinho após finalizar a compra
-                      itensCarrinho.innerHTML = '';
-                      totalCarrinho.textContent = 'R$ 0,00';
-                      totalCompra = 0;
-                    }
-                  );
+                    // Limpa o carrinho após finalizar a compra
+                    itensCarrinho.innerHTML = '';
+                    totalCarrinho.textContent = 'R$ 0,00';
+                    totalCompra = 0;
+                });
 
               // Evento de clique para exportar pedidos
-              botaoExportarPedidos.addEventListener
-              ('click', () => 
-                {
-                  const linhasTabela = document.querySelectorAll('.pedidos-vendidos tbody tr');
+                botaoExportarPedidos.addEventListener('click', () => {
 
-                  let textoExportado = 'Item,Data,Forma de Pagamento,Cliente,Categoria,Observacao,Desconto,Valor Final,Quantidade,Valor\n';
+                    const linhasTabela = document.querySelectorAll('.pedidos-vendidos tbody tr');
 
-                  linhasTabela.forEach
-                  (linha => 
-                    {
+                    let textoExportado = 'Item,Data,Forma de Pagamento,Cliente,Categoria,Observacao,Desconto,Valor Final,Quantidade,Valor\n';
+
+                    linhasTabela.forEach (linha => {
                       const colunas = linha.querySelectorAll('td');
-                      colunas.forEach
-                      ((coluna, index) => 
+                      colunas.forEach ((coluna, index) => {
+
+                        textoExportado += coluna.textContent;
+                        if (index !== colunas.length - 1) 
                         {
-                          textoExportado += coluna.textContent;
-                          if (index !== colunas.length - 1) 
-                          {
-                            textoExportado += ',';
-                          } else 
-                          {
-                            textoExportado += '\n';
-                          }
+                          textoExportado += ',';
+                        } else 
+                        {
+                          textoExportado += '\n';
                         }
-                      );
-                    }
-                  );
-                  // Limpar a tabela de pedidos
-                  const listaPedidosVendidos = document.querySelector('.lista-pedidos-vendidos');
-                  listaPedidosVendidos.innerHTML = '';
-                  // Gera um nome de arquivo baseado na data e hora atual
-                  const agora = new Date();
-                  const nomeArquivo = `pedidos_${agora.getFullYear()}/${agora.getMonth() + 1}/${agora.getDate()}_${agora.getHours()}-${agora.getMinutes()}-${agora.getSeconds()}.txt`;
+                            
+                      });
 
-                  // Cria um elemento <a> para fazer o download do arquivo
-                  const a = document.createElement('a');
-                  const file = new Blob([textoExportado], { type: 'text/plain' });
-                  a.href = URL.createObjectURL(file);
-                  a.download = nomeArquivo;
-                  a.click();
-                }
-              );
+                    });
+                    // Limpar a tabela de pedidos
+                    const listaPedidosVendidos = document.querySelector('.lista-pedidos-vendidos');
+                    listaPedidosVendidos.innerHTML = '';
+                    // Gera um nome de arquivo baseado na data e hora atual
+                    const agora = new Date();
+                    const nomeArquivo = `pedidos_${agora.getFullYear()}/${agora.getMonth() + 1}/${agora.getDate()}_${agora.getHours()}-${agora.getMinutes()}-${agora.getSeconds()}.txt`;
 
-             // Botão para imprimir pedidos
-                    
-
-             // Botão para imprimir pedidos
+                    // Cria um elemento <a> para fazer o download do arquivo
+                    const a = document.createElement('a');
+                    const file = new Blob([textoExportado], { type: 'text/plain' });
+                    a.href = URL.createObjectURL(file);
+                    a.download = nomeArquivo;
+                    a.click();
+                });
 
 
-            }
-    
-    );
+            });
   </script>
 
 
