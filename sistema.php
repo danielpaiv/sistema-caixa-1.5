@@ -312,7 +312,7 @@
         </div><br>
 
         <div>
-          <label for="valor-venda">Valor da venda:</label>
+          <label for="valor-venda">Ultima Venda:</label>
           <input type="number" id="valor-venda" name="valor-venda">
         </div><br>
 
@@ -338,6 +338,10 @@
   <section class="pedidos-vendidos">
     <h2>Pedidos Vendidos</h2>
     <br>
+    
+          <label for="valor-venda">Valor da venda:</label>
+          <input type="number" id="valor-venda" name="valor-venda">
+        
     <table>
       <thead>
         <tr>
