@@ -2,7 +2,7 @@
     $dbhost = 'localhost';
     $dbUsername = 'root';
     $dbpassword ='';
-    $dbName = 'formulario-daniel';
+    $dbName = 'banco_dados';
 
     $conexao = new mysqli($dbhost,$dbUsername,$dbpassword,$dbName);
 
