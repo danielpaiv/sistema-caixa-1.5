@@ -317,7 +317,7 @@
         </div><br>
 
         <div>
-          <label for="discount">Desconto (%):</label>
+          <label for="discount">Ultimo Desconto:</label>
           <input type="number" id="discount" name="discount">
         </div><br>
 
