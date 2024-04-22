@@ -151,13 +151,11 @@
         
         <div class="box">
           Bem vindo ao sistema
-          
-
         </div>
 
         <header>
-    <h1>Sistema de Caixa 1.5</h1>
-  </header>
+          <h1>Sistema de Caixa 1.5</h1>
+        </header>
 
     <main>
       <!-- <section class="produtos">-->
@@ -193,6 +191,7 @@
                     <br>
                     <button id="botao-filtrar">Filtrar</button>
                   </div>
+
                   <br>
                   <br>
                 <!-- Lista de produtos -->
@@ -263,9 +262,9 @@
           <!-- Restante do código dos produtos... -->
         
 
-        <!-- Adicione mais produtos conforme necessário -->
+        
       
-
+        <!-- Criar carrinho de compras -->
       <section class="carrinho">
         <h2>Carrinho</h2>
         <table>
@@ -334,7 +333,8 @@
         <button class="finalizar-compra">Finalizar Compra</button>
       </section>
     </main>
-
+      
+    <!-- Criar tabela  de pedidos vendidos -->
   <section class="pedidos-vendidos">
     <h2>Pedidos Vendidos</h2>
     <br>
@@ -416,8 +416,7 @@
             {
               const termoBusca = filtroProdutos.value.toLowerCase();
 
-              produtos.forEach
-              (produto => 
+              produtos.forEach(produto => 
                 {
                   const nomeProduto = produto.getAttribute('data-name').toLowerCase();
                   const produtoElemento = produto;
@@ -437,7 +436,6 @@
 
       
         });
-
               // código filtrar itens...
     
               // codigo salvar dados no navegador...
