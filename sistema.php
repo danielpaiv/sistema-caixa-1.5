@@ -411,8 +411,7 @@
           const botaoFiltrar = document.getElementById('botao-filtrar');
           const produtos = document.querySelectorAll('.produtos .produto');
 
-          botaoFiltrar.addEventListener
-          ('click', function () 
+          botaoFiltrar.addEventListener('click', function () 
             {
               const termoBusca = filtroProdutos.value.toLowerCase();
 
