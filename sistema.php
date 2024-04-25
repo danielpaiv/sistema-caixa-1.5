@@ -439,9 +439,12 @@
     
               // codigo salvar dados no navegador...
             document.addEventListener('DOMContentLoaded', function () {
+
+              //segundo passo estanciando as variaveis
               const produtos = document.querySelectorAll('.produtos .produto');
               const itensCarrinho = document.querySelector('.itens-carrinho');
               const totalCarrinho = document.querySelector('.total span');
+
               const botaoFinalizarCompra = document.querySelector('.finalizar-compra');
               const listaPedidosVendidos = document.querySelector('.lista-pedidos-vendidos');
               const botaoExportarPedidos = document.querySelector('.exportar-pedidos');
@@ -451,9 +454,13 @@
               const selectObservacao = document.getElementById('observacao');
               const selectDiscount = document.getElementById('discount');
                const selectValorFinal = document.getElementById('valor-final');
+
+               //terceiro passo adicionar o total do carrinho
               let totalCompra = 0;
 
                   // Adiciona eventos de clique para adicionar produtos ao carrinho
+                  
+                  //aula 5 comecer por aqui a logica do carrinho
                 produtos.forEach(produto => {
                   const adicionarProdutoBtn = produto.querySelector('.adicionar-produto');
 
